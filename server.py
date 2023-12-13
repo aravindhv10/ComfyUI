@@ -197,8 +197,10 @@ class PromptServer():
                     return web.Response(status=400)
 
                 subfolder = post.get("subfolder", "")
+
                 full_output_folder = os.path.join(upload_dir,
                                                   os.path.normpath(subfolder))
+
                 filepath = os.path.abspath(
                     os.path.join(full_output_folder, filename))
 
