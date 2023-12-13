@@ -185,14 +185,14 @@ class PromptServer():
         ################################################################################################################################
 
         def json_upload(post, json_save_function=None):
-            json = post.get("json")
+            json_data = post.get("json")
             overwrite = post.get("overwrite")
 
             json_upload_type = post.get("type")
             upload_dir, json_upload_type = get_dir_by_type('temp')
 
-            if json and json.file:
-                filename = json.filename
+            if json_data and json_data.file:
+                filename = json_data.filename
                 if not filename:
                     return web.Response(status=400)
 
@@ -223,10 +223,10 @@ class PromptServer():
                         i += 1
 
                 if json_save_function is not None:
-                    json_save_function(json, post, filepath)
+                    json_save_function(json_data, post, filepath)
                 else:
                     with open(filepath, "w", encoding='utf-8') as f:
-                        f.write(json)
+                        f.write(json_data)
 
                 return web.json_response({
                     "name": filename,
