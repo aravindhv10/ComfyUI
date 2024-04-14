@@ -13,9 +13,6 @@
 [submodule "custom_nodes/tri3d-comfyui-nodes"]
 	path = custom_nodes/tri3d-comfyui-nodes
 	url = https://github.com/TRI3D-LC/tri3d-comfyui-nodes.git
-[submodule "custom_nodes/Self-Correction-Human-Parsing"]
-	path = custom_nodes/Self-Correction-Human-Parsing
-	url = https://github.com/GoGoDuck912/Self-Correction-Human-Parsing.git
 [submodule "custom_nodes/ComfyUI-Marigold"]
 	path = custom_nodes/ComfyUI-Marigold
 	url = https://github.com/kijai/ComfyUI-Marigold.git
@@ -34,15 +31,6 @@
 [submodule "custom_nodes/masquerade-nodes-comfyui"]
 	path = custom_nodes/masquerade-nodes-comfyui
 	url = https://github.com/BadCafeCode/masquerade-nodes-comfyui.git
-[submodule "custom_nodes/ComfyUI_examples"]
-	path = custom_nodes/ComfyUI_examples
-	url = https://github.com/comfyanonymous/ComfyUI_examples.git
-[submodule "custom_nodes/IP-Adapter"]
-	path = custom_nodes/IP-Adapter
-	url = https://github.com/tencent-ailab/IP-Adapter.git
-[submodule "custom_nodes/insightface"]
-	path = custom_nodes/insightface
-	url = https://github.com/deepinsight/insightface.git
 [submodule "custom_nodes/ComfyUI-TeaNodes"]
 	path = custom_nodes/ComfyUI-TeaNodes
 	url = https://github.com/TeaCrab/ComfyUI-TeaNodes.git
@@ -52,9 +40,6 @@
 [submodule "custom_nodes/ComfyUI_UltimateSDUpscale"]
 	path = custom_nodes/ComfyUI_UltimateSDUpscale
 	url = https://github.com/ssitu/ComfyUI_UltimateSDUpscale.git
-[submodule "custom_nodes/GroundingDINO"]
-	path = custom_nodes/GroundingDINO
-	url = https://github.com/IDEA-Research/GroundingDINO.git
 [submodule "custom_nodes/comfyui-prompt-reader-node"]
 	path = custom_nodes/comfyui-prompt-reader-node
 	url = https://github.com/receyuki/comfyui-prompt-reader-node.git
@@ -70,9 +55,6 @@
 [submodule "custom_nodes/ComfyUI_JPS-Nodes"]
 	path = custom_nodes/ComfyUI_JPS-Nodes
 	url = https://github.com/JPS-GER/ComfyUI_JPS-Nodes.git
-[submodule "custom_nodes/ComfyUI-Background-Replacement"]
-	path = custom_nodes/ComfyUI-Background-Replacement
-	url = https://github.com/meap158/ComfyUI-Background-Replacement.git
 [submodule "custom_nodes/ComfyUI-SUPIR"]
 	path = custom_nodes/ComfyUI-SUPIR
 	url = https://github.com/kijai/ComfyUI-SUPIR.git
@@ -118,9 +100,6 @@
 [submodule "custom_nodes/ComfyUI-Flowty-LDSR"]
 	path = custom_nodes/ComfyUI-Flowty-LDSR
 	url = https://github.com/flowtyone/ComfyUI-Flowty-LDSR.git
-[submodule "custom_nodes/ComfyUI-to-Python-Extension"]
-	path = custom_nodes/ComfyUI-to-Python-Extension
-	url = https://github.com/pydn/ComfyUI-to-Python-Extension.git
 [submodule "custom_nodes/comfyui-inpaint-nodes"]
 	path = custom_nodes/comfyui-inpaint-nodes
 	url = https://github.com/Acly/comfyui-inpaint-nodes.git
