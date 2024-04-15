@@ -14,6 +14,15 @@ OUTPUT_DIR = "/tmp/outputs"
 INPUT_DIR = "/tmp/inputs"
 COMFYUI_TEMP_OUTPUT_DIR = "ComfyUI/temp"
 
+BASE_PATH = os.path.dirname(os.path.realpath(__file__))
+
+
+def mkdir_safe(out_path):
+    if type(out_path) == str:
+        if len(out_path) > 0:
+            if not os.path.exists(out_path):
+                os.mkdir(out_path)
+
 
 def hash_file(filename):
     h = hashlib.sha512()
@@ -93,18 +102,24 @@ with open("examples/api_workflows/sdxl_simple_example.json", "r") as file:
     EXAMPLE_WORKFLOW_JSON = file.read()
 
 
+def download_inspyrenet():
+    DEST_DIR = BASE_PATH + '/models/inspyrenet/'
+    mkdir_safe(out_path=DEST_DIR)
+
+    do_download(
+        url=
+        'https://huggingface.co/hanamizuki-ai/InSPyReNet-SwinB-Plus-Ultra/resolve/main/latest.pth',
+        name='InSPyReNet-SwinB-Plus-Ultra.pth',
+        sha512sum=
+        '542ad8974e0c8f8ec041f446176e7380642fc5c331b3239c8197775780b1ac8dc7311bf2edebb8c1d12741eda1f510bc4c4f24ed8c1ae92dcf00612360b03dee',
+        path=DEST_DIR + '/InSPyReNet-SwinB-Plus-Ultra.pth',
+    )
+
+
 class Predictor(BasePredictor):
 
     def setup(self):
-        do_download(
-            url=
-            'https://huggingface.co/hanamizuki-ai/InSPyReNet-SwinB-Plus-Ultra/resolve/main/latest.pth',
-            name='InSPyReNet-SwinB-Plus-Ultra.pth',
-            sha512sum=
-            '542ad8974e0c8f8ec041f446176e7380642fc5c331b3239c8197775780b1ac8dc7311bf2edebb8c1d12741eda1f510bc4c4f24ed8c1ae92dcf00612360b03dee',
-            path='/src/models/inspyrenet/InSPyReNet-SwinB-Plus-Ultra.pth',
-        )
-
+        download_inspyrenet()
         self.comfyUI = ComfyUI("127.0.0.1:8188")
         self.comfyUI.start_server(OUTPUT_DIR, INPUT_DIR)
 
