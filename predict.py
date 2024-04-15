@@ -98,8 +98,13 @@ def do_download(url, name, sha512sum, path):
         print('Failed to make the TMP directory.')
 
 
-with open("examples/api_workflows/sdxl_simple_example.json", "r") as file:
-    EXAMPLE_WORKFLOW_JSON = file.read()
+def get_workflow(input_file_background, input_file_subject):
+    with open(BASE_PATH + '/workflow_api.json', "r") as file:
+        WORKFLOW = file.read()
+    WORKFLOW = json.loads(WORKFLOW)
+    WORKFLOW["3"]["inputs"]["image"] = input_file_background
+    WORKFLOW["4"]["inputs"]["image"] = input_file_subject
+    return WORKFLOW
 
 
 def download_inspyrenet():
@@ -189,7 +194,8 @@ class Predictor(BasePredictor):
         # TODO: Record the previous models loaded
         # If different, run /free to free up models and memory
 
-        wf = self.comfyUI.load_workflow(workflow_json or EXAMPLE_WORKFLOW_JSON)
+        wf = self.comfyUI.load_workflow(
+            get_workflow(input_file_background, input_file_subject))
 
         if randomise_seeds:
             self.comfyUI.randomise_seeds(wf)
