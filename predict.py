@@ -8,9 +8,86 @@ import subprocess
 import tarfile
 import zipfile
 
+HOME_DIR = os.environ.get('HOME', '/root')
+
 OUTPUT_DIR = "/tmp/outputs"
 INPUT_DIR = "/tmp/inputs"
 COMFYUI_TEMP_OUTPUT_DIR = "ComfyUI/temp"
+
+
+def hash_file(filename):
+    h = hashlib.sha512()
+    with open(filename, 'rb') as file:
+        while True:
+            chunk = file.read(h.block_size)
+            if not chunk:
+                break
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def which(exe_name):
+
+    if exe_name in os.listdir('/usr/local/bin'):
+        return '/usr/local/bin/' + exe_name
+
+    if exe_name in os.listdir('/usr/bin'):
+        return '/usr/bin/' + exe_name
+
+    if exe_name in os.listdir('/bin'):
+        return '/bin/' + exe_name
+
+    return None
+
+
+def aria2c(url, name):
+    subprocess.run(
+        [which(exe_name='aria2c'), '-c', '-x16', '-j16', '-o', name, url])
+
+
+def do_download(url, name, sha512sum, path):
+    TMP = HOME_DIR + '/TMP'
+    SHA512SUM_DIR = HOME_DIR + '/SHA512SUM'
+
+    if not os.path.exists(TMP):
+        os.mkdir(TMP)
+
+    if os.path.exists(TMP) and os.path.isdir(TMP):
+
+        os.chdir(TMP)
+
+        file_exists = (sha512sum is not None) and (
+            os.path.exists(SHA512SUM_DIR + '/' + sha512sum))
+
+        if not file_exists:
+
+            if ((not os.path.exists(name)) and
+                (not os.path.exists(name + '.aria2'))) or (
+                    (os.path.exists(name)) and
+                    (os.path.exists(name + '.aria2'))):
+
+                aria2c(url=url, name=name)
+
+        if os.path.exists(name) and (not os.path.exists(name + '.aria2')):
+
+            hash = hash_file(filename=name)
+
+            if sha512sum is not None:
+                if sha512sum == hash:
+                    shutil.move(name, SHA512SUM_DIR + '/' + hash)
+
+        file_exists = (sha512sum is not None) and (
+            os.path.exists(SHA512SUM_DIR + '/' + sha512sum))
+
+        if path is not None:
+
+            if file_exists:
+
+                os.symlink(src=SHA512SUM_DIR + '/' + sha512sum, dst=path)
+
+    else:
+        print('Failed to make the TMP directory.')
+
 
 with open("examples/api_workflows/sdxl_simple_example.json", "r") as file:
     EXAMPLE_WORKFLOW_JSON = file.read()
@@ -19,6 +96,15 @@ with open("examples/api_workflows/sdxl_simple_example.json", "r") as file:
 class Predictor(BasePredictor):
 
     def setup(self):
+        do_download(
+            url=
+            'https://huggingface.co/hanamizuki-ai/InSPyReNet-SwinB-Plus-Ultra/resolve/main/latest.pth',
+            name='InSPyReNet-SwinB-Plus-Ultra.pth',
+            sha512sum=
+            '542ad8974e0c8f8ec041f446176e7380642fc5c331b3239c8197775780b1ac8dc7311bf2edebb8c1d12741eda1f510bc4c4f24ed8c1ae92dcf00612360b03dee',
+            path='/src/models/inspyrenet/InSPyReNet-SwinB-Plus-Ultra.pth',
+        )
+
         self.comfyUI = ComfyUI("127.0.0.1:8188")
         self.comfyUI.start_server(OUTPUT_DIR, INPUT_DIR)
 
