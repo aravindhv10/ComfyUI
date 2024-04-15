@@ -65,10 +65,12 @@ class ComfyUI:
             return False
 
     def download_pre_start_models(self):
+        return
         # Some models need to be downloaded and loaded before starting ComfyUI
         self.weights_downloader.download_torch_checkpoints()
 
     def handle_weights(self, workflow):
+        return
         print("Checking weights")
         embeddings = self.weights_downloader.get_weights_by_type("EMBEDDINGS")
         embedding_to_fullname = {emb.split(".")[0]: emb for emb in embeddings}
@@ -123,6 +125,7 @@ class ComfyUI:
         )
 
     def handle_known_unsupported_nodes(self, workflow):
+        return
         for node in workflow.values():
             WAS_Node_Suite.check_for_unsupported_nodes(node)
 
