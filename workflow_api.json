@@ -1,0 +1,85 @@
+{
+  "3": {
+    "inputs": {
+      "image": "bkg.jpg",
+      "upload": "image"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "Load Image"
+    }
+  },
+  "4": {
+    "inputs": {
+      "image": "subject.png",
+      "upload": "image"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "Load Image"
+    }
+  },
+  "5": {
+    "inputs": {
+      "image": [
+        "4",
+        0
+      ]
+    },
+    "class_type": "tri3d-main_transparent_background",
+    "_meta": {
+      "title": "Transparent Background v3.0"
+    }
+  },
+  "6": {
+    "inputs": {
+      "images": [
+        "7",
+        0
+      ]
+    },
+    "class_type": "PreviewImage",
+    "_meta": {
+      "title": "Preview Image"
+    }
+  },
+  "7": {
+    "inputs": {
+      "threshhold_hist": [
+        "13",
+        0
+      ],
+      "scale_factor": 1,
+      "height_factor": 1,
+      "bkg_image": [
+        "3",
+        0
+      ],
+      "subject_image": [
+        "4",
+        0
+      ],
+      "subject_mask": [
+        "5",
+        1
+      ]
+    },
+    "class_type": "tri3d-simple_bg_swap",
+    "_meta": {
+      "title": "Simple bg swap v3.0"
+    }
+  },
+  "13": {
+    "inputs": {
+      "gradient_threshold": 0.0001,
+      "subject_image": [
+        "4",
+        0
+      ]
+    },
+    "class_type": "tri3d-get_threshold_for_bg_swap",
+    "_meta": {
+      "title": "Get threshold for bg swap v3.0"
+    }
+  }
+}
