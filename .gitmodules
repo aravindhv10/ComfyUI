@@ -103,3 +103,6 @@
 [submodule "custom_nodes/comfyui-inpaint-nodes"]
 	path = custom_nodes/comfyui-inpaint-nodes
 	url = https://github.com/Acly/comfyui-inpaint-nodes.git
+[submodule "extra/transparent-background"]
+	path = extra/transparent-background
+	url = https://github.com/plemeri/transparent-background.git
