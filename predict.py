@@ -7,14 +7,15 @@ import sys
 
 sys.path.append(BASE_PATH)
 
-from cog import BasePredictor, Input, Path
-from helpers.comfyui import ComfyUI
 from typing import List
 import hashlib
 import shutil
 import subprocess
 import tarfile
 import zipfile
+
+from cog import BasePredictor, Input, Path
+from helpers.comfyui import ComfyUI
 
 OUTPUT_DIR = "/tmp/outputs"
 INPUT_DIR = "/tmp/inputs"
@@ -89,13 +90,14 @@ def do_download(url, name, sha512sum, path):
 
     if os.path.exists(TMP) and os.path.isdir(TMP):
 
-        os.chdir(TMP)
 
         file_exists = (sha512sum is not None) and (
             os.path.exists(SHA512SUM_DIR + '/' + sha512sum))
 
         if not file_exists:
 
+            os.chdir(TMP)
+            os.system('pwd ; ls')
             if ((not os.path.exists(name)) and
                 (not os.path.exists(name + '.aria2'))) or (
                     (os.path.exists(name)) and
@@ -103,6 +105,8 @@ def do_download(url, name, sha512sum, path):
 
                 aria2c(url=url, name=name)
 
+        os.chdir(TMP)
+        os.system('pwd ; ls')
         if os.path.exists(name) and (not os.path.exists(name + '.aria2')):
 
             hash = hash_file(filename=name)
