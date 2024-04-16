@@ -153,6 +153,7 @@ class Predictor(BasePredictor):
     def setup(self):
         download_inspyrenet()
         ensure_package(path_file_model=None)
+        os.chdir(BASE_PATH)
         self.comfyUI = ComfyUI("127.0.0.1:8188")
         self.comfyUI.start_server(OUTPUT_DIR, INPUT_DIR)
 
