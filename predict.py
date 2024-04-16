@@ -1,20 +1,21 @@
+import os
+
+HOME_DIR = os.environ.get('HOME', '/root')
+BASE_PATH = os.path.dirname(os.path.realpath(__file__))
+sys.path.append(BASE_PATH)
+
 from cog import BasePredictor, Input, Path
 from helpers.comfyui import ComfyUI
 from typing import List
 import hashlib
-import os
 import shutil
 import subprocess
 import tarfile
 import zipfile
 
-HOME_DIR = os.environ.get('HOME', '/root')
-
 OUTPUT_DIR = "/tmp/outputs"
 INPUT_DIR = "/tmp/inputs"
 COMFYUI_TEMP_OUTPUT_DIR = "ComfyUI/temp"
-
-BASE_PATH = os.path.dirname(os.path.realpath(__file__))
 
 
 def mkdir_safe(out_path):
