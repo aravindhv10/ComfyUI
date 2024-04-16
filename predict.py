@@ -241,4 +241,6 @@ class Predictor(BasePredictor):
             print(os.listdir(directory))
             files.extend(self.log_and_collect_files(directory))
 
+        print('==== RETURN ====')
+        print(files)
         return files
