@@ -130,8 +130,8 @@ def get_workflow(input_file_background, input_file_subject):
     with open(BASE_PATH + '/workflow_api.json', "r", encoding='utf-8') as file:
         WORKFLOW = file.read()
     WORKFLOW = json.loads(WORKFLOW)
-    WORKFLOW["3"]["inputs"]["image"] = input_file_background
-    WORKFLOW["4"]["inputs"]["image"] = input_file_subject
+    WORKFLOW["3"]["inputs"]["image"] = str(input_file_background)
+    WORKFLOW["4"]["inputs"]["image"] = str(input_file_subject)
     return WORKFLOW
 
 
