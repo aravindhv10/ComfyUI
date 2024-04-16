@@ -227,7 +227,7 @@ class Predictor(BasePredictor):
         wf = get_workflow(input_file_background, input_file_subject)
         print('DEBUG: ', type(wf))
         print('DEBUG: ', wf)
-        wf = self.comfyUI.load_workflow(wf)
+        self.comfyUI.load_workflow(wf)
         print('DEBUG: ', type(wf))
         print('DEBUG: ', wf)
 
