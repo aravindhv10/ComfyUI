@@ -224,8 +224,12 @@ class Predictor(BasePredictor):
         # TODO: Record the previous models loaded
         # If different, run /free to free up models and memory
 
-        wf = self.comfyUI.load_workflow(
-            get_workflow(input_file_background, input_file_subject))
+        wf = get_workflow(input_file_background, input_file_subject)
+        print('DEBUG: ', type(wf))
+        print('DEBUG: ', wf)
+        wf = self.comfyUI.load_workflow(wf)
+        print('DEBUG: ', type(wf))
+        print('DEBUG: ', wf)
 
         if randomise_seeds:
             self.comfyUI.randomise_seeds(wf)
