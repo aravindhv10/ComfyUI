@@ -31,18 +31,6 @@
       "title": "Transparent Background v3.0"
     }
   },
-  "6": {
-    "inputs": {
-      "images": [
-        "7",
-        0
-      ]
-    },
-    "class_type": "PreviewImage",
-    "_meta": {
-      "title": "Preview Image"
-    }
-  },
   "7": {
     "inputs": {
       "threshhold_hist": [
@@ -80,6 +68,19 @@
     "class_type": "tri3d-get_threshold_for_bg_swap",
     "_meta": {
       "title": "Get threshold for bg swap v3.0"
+    }
+  },
+  "14": {
+    "inputs": {
+      "filename_prefix": "simple_bkg_swap",
+      "images": [
+        "7",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
     }
   }
 }
