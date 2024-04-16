@@ -84,12 +84,12 @@ def aria2c(url, name):
 def do_download(url, name, sha512sum, path):
     TMP = HOME_DIR + '/TMP'
     SHA512SUM_DIR = HOME_DIR + '/SHA512SUM'
+    mkdir_safe(out_path=SHA512SUM_DIR)
 
     if not os.path.exists(TMP):
         os.mkdir(TMP)
 
     if os.path.exists(TMP) and os.path.isdir(TMP):
-
 
         file_exists = (sha512sum is not None) and (
             os.path.exists(SHA512SUM_DIR + '/' + sha512sum))
