@@ -184,26 +184,15 @@ class ComfyUI:
         self.post_request("/interrupt")
 
     def queue_prompt(self, prompt):
-        print('DEBUG: ', prompt)
-        print('DEBUG: ', type(prompt))
-        try:
-            # Prompt is the loaded workflow (prompt is the label comfyUI uses)
-            p = {"prompt": prompt, "client_id": self.client_id}
-            data = json.dumps(p).encode("utf-8")
-            req = urllib.request.Request(
-                f"http://{self.server_address}/prompt?{self.client_id}",
-                data=data)
+        p = {"prompt": prompt, "client_id": self.client_id}
+        print('DEBUG queue_prompt: ', type(p))
+        print('DEBUG queue_prompt: ', p)
+        data = json.dumps(p).encode("utf-8")
+        req = urllib.request.Request(
+            f"http://{self.server_address}/prompt?{self.client_id}", data=data)
 
-            output = json.loads(urllib.request.urlopen(req).read())
-            return output["prompt_id"]
-        except urllib.error.HTTPError as e:
-            print(f"ComfyUI error: {e.code} {e.reason}")
-            http_error = True
-
-        if http_error:
-            raise Exception(
-                "ComfyUI Error – Your workflow could not be run. This usually happens if you’re trying to use an unsupported node. Check the logs for 'KeyError: ' details, and go to https://github.com/fofr/cog-comfyui to see the list of supported custom nodes."
-            )
+        output = json.loads(urllib.request.urlopen(req).read())
+        return output["prompt_id"]
 
     def wait_for_prompt_completion(self, workflow, prompt_id):
         while True:
