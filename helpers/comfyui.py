@@ -185,9 +185,9 @@ class ComfyUI:
 
     def queue_prompt(self, prompt):
         p = {"prompt": prompt, "client_id": self.client_id}
-        print('DEBUG queue_prompt: ', type(p))
-        print('DEBUG queue_prompt: ', p)
         data = json.dumps(p).encode("utf-8")
+        print('DEBUG data:', type(data))
+        print('DEBUG data:', data)
         req = urllib.request.Request(
             f"http://{self.server_address}/prompt?{self.client_id}", data=data)
 
