@@ -127,7 +127,7 @@ def do_download(url, name, sha512sum, path):
 
 
 def get_workflow(input_file_background, input_file_subject):
-    with open(BASE_PATH + '/workflow_api.json', "r") as file:
+    with open(BASE_PATH + '/workflow_api.json', "r", encoding='utf-8') as file:
         WORKFLOW = file.read()
     WORKFLOW = json.loads(WORKFLOW)
     WORKFLOW["3"]["inputs"]["image"] = input_file_background
