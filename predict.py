@@ -21,6 +21,28 @@ INPUT_DIR = "/tmp/inputs"
 COMFYUI_TEMP_OUTPUT_DIR = "ComfyUI/temp"
 
 
+def build_pip_install_cmds(args):
+
+    if "python_embeded" in sys.executable or "python_embedded" in sys.executable:
+
+        return [sys.executable, '-s', '-m', 'pip', 'install'] + args
+
+    else:
+
+        return [sys.executable, '-m', 'pip', 'install'] + args
+
+
+def ensure_package(path_file_model=None):
+
+    if path_file_model is None:
+        path_file_model = get_path_file_model()
+
+    cmds = build_pip_install_cmds(
+        [BASE_PATH + '/extra/transparent-background/'])
+    subprocess.run(cmds, cwd=tri3d_custom_nodes_path)
+    download_model_file(path_file_model)
+
+
 def mkdir_safe(out_path):
     if type(out_path) == str:
         if len(out_path) > 0:
@@ -129,6 +151,7 @@ class Predictor(BasePredictor):
 
     def setup(self):
         download_inspyrenet()
+        ensure_package(path_file_model=None)
         self.comfyUI = ComfyUI("127.0.0.1:8188")
         self.comfyUI.start_server(OUTPUT_DIR, INPUT_DIR)
 
