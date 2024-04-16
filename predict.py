@@ -235,8 +235,6 @@ class Predictor(BasePredictor):
 
         files = []
         output_directories = [OUTPUT_DIR]
-        if return_temp_files:
-            output_directories.append(COMFYUI_TEMP_OUTPUT_DIR)
 
         for directory in output_directories:
             print(f"Contents of {directory}:")
