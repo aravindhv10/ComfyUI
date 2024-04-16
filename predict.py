@@ -34,14 +34,9 @@ def build_pip_install_cmds(args):
 
 
 def ensure_package(path_file_model=None):
-
-    if path_file_model is None:
-        path_file_model = get_path_file_model()
-
     cmds = build_pip_install_cmds(
         [BASE_PATH + '/extra/transparent-background/'])
     subprocess.run(cmds, cwd=tri3d_custom_nodes_path)
-    download_model_file(path_file_model)
 
 
 def mkdir_safe(out_path):
