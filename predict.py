@@ -121,6 +121,8 @@ def do_download(url, name, sha512sum, path):
         if path is not None:
 
             if file_exists:
+                if os.path.exists(path):
+                    os.unlink(path)
 
                 os.symlink(src=SHA512SUM_DIR + '/' + sha512sum, dst=path)
 
