@@ -238,6 +238,7 @@ class Predictor(BasePredictor):
 
         for directory in output_directories:
             print(f"Contents of {directory}:")
+            print(os.listdir(directory))
             files.extend(self.log_and_collect_files(directory))
 
         return files
