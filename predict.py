@@ -13,6 +13,7 @@ import shutil
 import subprocess
 import tarfile
 import zipfile
+import json
 
 from cog import BasePredictor, Input, Path
 from helpers.comfyui import ComfyUI
