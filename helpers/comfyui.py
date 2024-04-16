@@ -13,7 +13,6 @@ import random
 from weights_downloader import WeightsDownloader
 from urllib.error import URLError
 
-
 # custom_nodes helpers
 from helpers.ComfyUI_IPAdapter_plus import ComfyUI_IPAdapter_plus
 from helpers.ComfyUI_Controlnet_Aux import ComfyUI_Controlnet_Aux
@@ -26,6 +25,7 @@ from helpers.WAS_Node_Suite import WAS_Node_Suite
 
 
 class ComfyUI:
+
     def __init__(self, server_address):
         self.weights_downloader = WeightsDownloader()
         self.server_address = server_address
@@ -37,14 +37,15 @@ class ComfyUI:
 
         self.download_pre_start_models()
 
-        server_thread = threading.Thread(
-            target=self.run_server, args=(output_directory, input_directory)
-        )
+        server_thread = threading.Thread(target=self.run_server,
+                                         args=(output_directory,
+                                               input_directory))
         server_thread.start()
 
         start_time = time.time()
         while not self.is_server_running():
-            if time.time() - start_time > 60:  # If more than a minute has passed
+            if time.time(
+            ) - start_time > 60:  # If more than a minute has passed
                 raise TimeoutError("Server did not start within 60 seconds")
             time.sleep(1)  # Wait for 1 second before checking again
 
@@ -57,9 +58,8 @@ class ComfyUI:
 
     def is_server_running(self):
         try:
-            with urllib.request.urlopen(
-                "http://{}/history/{}".format(self.server_address, "123")
-            ) as response:
+            with urllib.request.urlopen("http://{}/history/{}".format(
+                    self.server_address, "123")) as response:
                 return response.status == 200
         except URLError:
             return False
@@ -87,14 +87,14 @@ class ComfyUI:
 
         for node in workflow.values():
             for handler in [
-                ComfyUI_Controlnet_Aux,
-                ComfyUI_Reactor_Node,
-                ComfyUI_IPAdapter_plus,
-                ComfyUI_InstantID,
-                ComfyUI_Impact_Pack,
-                ComfyUI_Segment_Anything,
-                ComfyUI_BRIA_AI_RMBG,
-                WAS_Node_Suite,
+                    ComfyUI_Controlnet_Aux,
+                    ComfyUI_Reactor_Node,
+                    ComfyUI_IPAdapter_plus,
+                    ComfyUI_InstantID,
+                    ComfyUI_Impact_Pack,
+                    ComfyUI_Segment_Anything,
+                    ComfyUI_BRIA_AI_RMBG,
+                    WAS_Node_Suite,
             ]:
                 handler.add_weights(weights_to_download, node)
 
@@ -105,9 +105,10 @@ class ComfyUI:
                             weights_to_download.extend(
                                 embedding_to_fullname[key]
                                 for key in embedding_to_fullname
-                                if key in input
-                            )
-                        elif any(input.endswith(ft) for ft in weights_filetypes):
+                                if key in input)
+                        elif any(
+                                input.endswith(ft)
+                                for ft in weights_filetypes):
                             weights_to_download.append(input)
 
         weights_to_download = list(set(weights_to_download))
@@ -120,9 +121,8 @@ class ComfyUI:
 
     def is_image_or_video_value(self, value):
         filetypes = [".png", ".jpg", ".jpeg", ".webp", ".mp4", ".webm"]
-        return isinstance(value, str) and any(
-            value.lower().endswith(ft) for ft in filetypes
-        )
+        return isinstance(value, str) and any(value.lower().endswith(ft)
+                                              for ft in filetypes)
 
     def handle_known_unsupported_nodes(self, workflow):
         return
@@ -135,21 +135,24 @@ class ComfyUI:
         for node in workflow.values():
             if "inputs" in node:
                 for input_key, input_value in node["inputs"].items():
-                    if isinstance(input_value, str) and input_value not in seen_inputs:
+                    if isinstance(input_value,
+                                  str) and input_value not in seen_inputs:
                         seen_inputs.add(input_value)
                         if input_value.startswith(("http://", "https://")):
                             filename = os.path.join(
-                                self.input_directory, os.path.basename(input_value)
-                            )
+                                self.input_directory,
+                                os.path.basename(input_value))
                             if not os.path.exists(filename):
-                                print(f"Downloading {input_value} to {filename}")
-                                urllib.request.urlretrieve(input_value, filename)
+                                print(
+                                    f"Downloading {input_value} to {filename}")
+                                urllib.request.urlretrieve(
+                                    input_value, filename)
                             node["inputs"][input_key] = filename
                             print(f"✅ {filename}")
                         elif self.is_image_or_video_value(input_value):
                             filename = os.path.join(
-                                self.input_directory, os.path.basename(input_value)
-                            )
+                                self.input_directory,
+                                os.path.basename(input_value))
                             if not os.path.exists(filename):
                                 print(f"❌ {filename} not provided")
                             else:
@@ -160,15 +163,17 @@ class ComfyUI:
     def connect(self):
         self.client_id = str(uuid.uuid4())
         self.ws = websocket.WebSocket()
-        self.ws.connect(f"ws://{self.server_address}/ws?clientId={self.client_id}")
+        self.ws.connect(
+            f"ws://{self.server_address}/ws?clientId={self.client_id}")
 
     def post_request(self, endpoint, data=None):
         url = f"http://{self.server_address}{endpoint}"
         headers = {"Content-Type": "application/json"} if data else {}
         json_data = json.dumps(data).encode("utf-8") if data else None
-        req = urllib.request.Request(
-            url, data=json_data, headers=headers, method="POST"
-        )
+        req = urllib.request.Request(url,
+                                     data=json_data,
+                                     headers=headers,
+                                     method="POST")
         with urllib.request.urlopen(req) as response:
             if response.status != 200:
                 print(f"Failed: {endpoint}, status code: {response.status}")
@@ -179,13 +184,15 @@ class ComfyUI:
         self.post_request("/interrupt")
 
     def queue_prompt(self, prompt):
+        print('DEBUG: ', prompt)
+        print('DEBUG: ', type(prompt))
         try:
             # Prompt is the loaded workflow (prompt is the label comfyUI uses)
             p = {"prompt": prompt, "client_id": self.client_id}
             data = json.dumps(p).encode("utf-8")
             req = urllib.request.Request(
-                f"http://{self.server_address}/prompt?{self.client_id}", data=data
-            )
+                f"http://{self.server_address}/prompt?{self.client_id}",
+                data=data)
 
             output = json.loads(urllib.request.urlopen(req).read())
             return output["prompt_id"]
@@ -225,7 +232,8 @@ class ComfyUI:
 
         # There are two types of ComfyUI JSON
         # We need the API version
-        if any(key in wf.keys() for key in ["last_node_id", "last_link_id", "version"]):
+        if any(key in wf.keys()
+               for key in ["last_node_id", "last_link_id", "version"]):
             raise ValueError(
                 "You need to use the API JSON version of a ComfyUI workflow. To do this go to your ComfyUI settings and turn on 'Enable Dev mode Options'. Then you can save your ComfyUI workflow via the 'Save (API Format)' button."
             )
@@ -257,6 +265,8 @@ class ComfyUI:
 
     def run_workflow(self, workflow):
         print("Running workflow")
+        print('DEBUG: ', workflow)
+        print('DEBUG: ', type(workflow))
         # self.reset_execution_cache()
 
         prompt_id = self.queue_prompt(workflow)
@@ -267,7 +277,7 @@ class ComfyUI:
 
     def get_history(self, prompt_id):
         with urllib.request.urlopen(
-            f"http://{self.server_address}/history/{prompt_id}"
+                f"http://{self.server_address}/history/{prompt_id}"
         ) as response:
             output = json.loads(response.read())
             return output[prompt_id]["outputs"]
