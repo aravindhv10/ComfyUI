@@ -2,6 +2,9 @@ import os
 
 HOME_DIR = os.environ.get('HOME', '/root')
 BASE_PATH = os.path.dirname(os.path.realpath(__file__))
+
+import sys
+
 sys.path.append(BASE_PATH)
 
 from cog import BasePredictor, Input, Path
